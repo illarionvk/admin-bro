@@ -28,12 +28,36 @@ class Filter extends React.PureComponent<CombinedProps> {
   }
 
   async loadOptions(inputValue: string): Promise<Array<{value: string; label: string }>> {
-    const { property } = this.props
+    const { property: { reference } } = this.props
+
+    if (!reference) {
+      throw new Error(
+        "Reference is invalid [1e38f186378b11ea87ee10ddb1eacae1]"
+      );
+    }
+
+    const resourceId =
+      typeof reference === "string"
+        ? reference
+        : reference.tableName != null
+        ? reference.tableName
+        : reference.table != null
+        ? reference.table
+        : null;
+
+    if (!resourceId) {
+      throw new Error(
+        "Resource ID is invalid [5204da2a378b11ea87ee10ddb1eacae1]"
+      );
+    }
+
     const records = await this.api.searchRecords({
-      resourceId: property.reference as string,
-      query: inputValue,
-    })
+      resourceId,
+      query: inputValue
+    });
+
     this.options = records.map(r => ({ value: r.id, label: r.title }))
+
     return this.options
   }
 
