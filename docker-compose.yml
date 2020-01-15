@@ -1,0 +1,16 @@
+version: '3.3'
+
+services:
+  tasks:
+    build: './'
+    volumes:
+      - './:/app'
+      - 'tasks_tmp:/mnt/tmp'
+    ports:
+      - '9229:9229'
+    command: ["/bin/bash"]
+    stdin_open: true
+    tty: true
+
+volumes:
+  tasks_tmp:
