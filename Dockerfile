@@ -1,4 +1,4 @@
-FROM node:12.14.1-buster
+FROM node:10.18.1-buster
 
 ENV TINI_VERSION=0.18.0 \
     TINI_KILL_PROCESS_GROUP=enabled \
